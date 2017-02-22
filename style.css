@@ -1,0 +1,78 @@
+ * {
+    box-sizing: border-box;
+    outline: none;
+}
+
+html {
+    --light-blue: #4ea5e0;
+    --blue: #3498db;
+    --font: "Roboto";
+    font-family: var(--font);
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background-color: #eee;
+}
+canvas {
+    box-shadow: 0 0 5px #aaa;
+    margin: auto;
+    display: block;
+}
+
+.page {
+    width: 500px;
+    margin: auto;
+    margin-top: 10px;
+    background: white;
+    padding: 20px;
+}
+
+input[type="file"] {
+    position: absolute;
+    width: 0;
+    height: 0;
+    padding: 0;
+    left: -100%;
+    top: -100%;
+}
+
+h1 {
+    margin: 0;
+    margin-bottom: 20px;
+    border-bottom: 3px solid var(--blue);
+}
+
+a:not([href]) {
+    display: none;
+}
+
+.btn {
+    background-color: var(--blue);
+    padding: 10px;
+    color: white;
+    font-size: 100%;
+    font-family: var(--font);
+    border: none;
+    border-radius: 1px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: var(--light-blue);
+}
+
+input.btn::-webkit-input-placeholder {
+    color: white;
+}
+
+.text-right {
+    text-align: right;
+}
+
+img {
+    max-width: 100%;
+}
