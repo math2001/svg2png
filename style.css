@@ -74,6 +74,8 @@ input.btn::-webkit-input-placeholder {
 }
 
 img {
+    display: block;
+    margin: 10px;
     background-image: url(./tiled-bg.png);
     max-width: 100%;
 }
