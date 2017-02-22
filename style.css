@@ -73,7 +73,7 @@ input.btn::-webkit-input-placeholder {
     text-align: right;
 }
 
-img {
+#result-image {
     display: block;
     margin: 10px;
     background-image: url(./tiled-bg.png);
