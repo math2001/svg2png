@@ -59,6 +59,9 @@ function handleUpload(e) {
 function handleInput(e) {
     // make the SVG a valid one
     // * add the xmlns link
+    if (this.value == '') {
+        return
+    }
     var [els, div] = to_elements(this.value)
     var found = false
     for (var i = 0; i < els.length; i++) {
