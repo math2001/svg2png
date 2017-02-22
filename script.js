@@ -33,7 +33,17 @@ const update_images = (pro) => {
 }
 
 function handleUpload(e) {
-    var fr = new FileReader()
+    if (!e.target.files[0]) return
+
+    if (e.target.files[0].type != 'image/svg+xml') {
+        if (!confirm("Unvalid type of file, it should be 'image/svg+xml', got '" +
+                     e.target.files[0].type) + "'. Click cancel to abort, or OK to keep going"
+                     + "(might fail)") {
+            return
+        }
+    }
+
+    const fr = new FileReader()
     fr.onloadend = update_images
     fr.readAsDataURL(e.target.files[0])
 }
