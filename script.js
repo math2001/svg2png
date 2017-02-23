@@ -24,7 +24,8 @@ const update_images = () => {
     download.href = data
 }
 
-const calls = (pro) => {
+const generate = (svg_code) => {
+    const base64 = 'data:image/svg+xml;base64,' + btoa(validate_svg(svg_code))
     const image = new Image()
     image.onload = function () {
         canvas.setAttribute('width', image.width + 'px')
@@ -33,14 +34,31 @@ const calls = (pro) => {
         context.drawImage(image, 0, 0)
         update_images()
     }
-    if (typeof pro == 'string') {
-        image.src = pro
-    } else {
-        image.src = pro.target.result
-    }
+    image.src = base64
+}
+
+function validate_svg(svg) {
+    // the div is used to get the final xml (it gets updated as we update the children)
+    var [els, div] = to_elements(svg);
+
+    (function set_xmlns(els) {
+        for (var i = 0; i < els.length; i++) {
+            if (els[i].nodeName != 'svg') {
+                continue
+            }
+            if (els[i].getAttribute('xmlns') == null) {
+                els[i].setAttribute('xmlns', "http://www.w3.org/2000/svg")
+            }
+            return
+        }
+        alert("Didn't find any <svg> tag in there.")
+    })(els)
+
+    return div.innerHTML
 }
 
 function handleUpload(e) {
+
     if (!e.target.files[0]) return
 
     if (e.target.files[0].type != 'image/svg+xml') {
@@ -52,33 +70,19 @@ function handleUpload(e) {
     }
 
     const fr = new FileReader()
-    fr.onloadend = calls
-    fr.readAsDataURL(e.target.files[0])
+    fr.onloadend = (process) => generate(process.target.result)
+
+    fr.readAsText(e.target.files[0])
+    // fr.readAsDataURL(e.target.files[0])
 }
 
 function handleInput(e) {
-    // make the SVG a valid one
-    // * add the xmlns link
+
     if (this.value == '') {
         return
     }
-    var [els, div] = to_elements(this.value)
-    var found = false
-    for (var i = 0; i < els.length; i++) {
-        if (els[i].nodeName != 'svg') {
-            continue
-        }
-        if (els[i].getAttribute('xmlns') == null) {
-            els[i].setAttribute('xmlns', "http://www.w3.org/2000/svg")
-        }
-        found = true
-        break
-    }
-    if (!found) {
-        alert("Didn't find any SVG tag in there.")
-    }
 
-    calls('data:image/svg+xml;base64,' + btoa(div.innerHTML))
+    generate(this.value)
 }
 
 file_input.addEventListener('change', handleUpload)
