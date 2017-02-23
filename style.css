@@ -127,12 +127,17 @@ footer {
     opacity: .5;
 }
 
-a.math2001 {
+a {
     color: #333;
     font-weight: bold;
     text-decoration: none;
 }
 
-a.math2001:hover {
+a:hover {
     text-decoration: underline;
+}
+
+hr {
+    border: 1px solid #ddd;
+    width: 50%;
 }
