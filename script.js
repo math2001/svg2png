@@ -57,13 +57,13 @@ function validate_svg(svg) {
     return div.innerHTML
 }
 
-function handleUpload(e) {
+function handleFile(file) {
 
-    if (!e.target.files[0]) return
+    if (!file) return
 
-    if (e.target.files[0].type != 'image/svg+xml') {
+    if (file.type != 'image/svg+xml') {
         if (!confirm("Unvalid type of file, it should be 'image/svg+xml', got '" +
-                     e.target.files[0].type) + "'. Click cancel to abort, or OK to keep going"
+                     file.type) + "'. Click cancel to abort, or OK to keep going"
                      + "(might fail)") {
             return
         }
@@ -72,8 +72,7 @@ function handleUpload(e) {
     const fr = new FileReader()
     fr.onloadend = (process) => generate(process.target.result)
 
-    fr.readAsText(e.target.files[0])
-    // fr.readAsDataURL(e.target.files[0])
+    fr.readAsText(file)
 }
 
 function handleInput(e) {
@@ -85,5 +84,28 @@ function handleInput(e) {
     generate(this.value)
 }
 
-file_input.addEventListener('change', handleUpload)
+function handleDrop(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    document.body.classList.remove('dragging-over')
+
+    handleFile(e.dataTransfer.files[0])
+}
+
+function handleDrag(e) {
+    e.preventDefault()
+    e.stopPropagation()
+    e.dataTransfer.dropEffect = 'copy'
+    document.body.classList.add('dragging-over')
+}
+
+function handleDragEnd(e) {
+    e.preventDefault()
+    document.body.classList.remove('dragging-over')
+}
+
+file_input.addEventListener('change', handleFile)
 text_input.addEventListener('input', handleInput)
+document.body.addEventListener('drop', handleDrop)
+document.body.addEventListener('dragover', handleDrag)
+document.body.addEventListener('dragleave', handleDragEnd)
