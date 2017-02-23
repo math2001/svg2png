@@ -104,7 +104,7 @@ function handleDragEnd(e) {
     document.body.classList.remove('dragging-over')
 }
 
-file_input.addEventListener('change', handleFile)
+file_input.addEventListener('change', (e) => handleFile(e.target.files[0]))
 text_input.addEventListener('input', handleInput)
 document.body.addEventListener('drop', handleDrop)
 document.body.addEventListener('dragover', handleDrag)
